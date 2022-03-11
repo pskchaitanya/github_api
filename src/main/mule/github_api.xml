@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="github_apiFlow" doc:id="be33176f-81e6-4b63-865b-1d0f02fd9ecc" >
+		<http:listener doc:name="Listener" doc:id="9a8500ab-c9e0-45f1-882c-f4cf59e0f220" />
+		<logger level="INFO" doc:name="Logger" doc:id="9740225a-1293-4c23-9a34-b3085663b2ab" />
+		<scatter-gather doc:name="Scatter-Gather" doc:id="28c3a032-86ab-4a63-a8c6-b6c593d7fc36" >
+			<route >
+				<file:write doc:name="Write" doc:id="c10483b9-1e50-4d20-9177-484b7ee869dc" />
+			</route>
+			<route >
+				<file:read doc:name="Read" doc:id="9b9b8ac5-9324-489f-ae77-940a33b6e2b8" />
+			</route>
+			<route >
+				<ee:transform doc:name="Transform Message" doc:id="11f50b71-e44a-411e-aa47-e40ccd1d14f1">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="f08cb8e2-c900-4ef9-8df0-29574aa64b26" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

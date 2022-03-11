@@ -31,7 +31,7 @@ output application/java
 		<ee:transform doc:name="Transform Message" doc:id="f08cb8e2-c900-4ef9-8df0-29574aa64b26" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/xml
 ---
 payload]]></ee:set-payload>
 			</ee:message>
